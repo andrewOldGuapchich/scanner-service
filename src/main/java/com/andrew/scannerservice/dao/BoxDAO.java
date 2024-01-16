@@ -1,6 +1,7 @@
 package com.andrew.scannerservice.dao;
 
 import com.andrew.scannerservice.connection.PostgreSQLConnection;
+import com.andrew.scannerservice.model.dtos.BoxDto;
 import com.andrew.scannerservice.model.dtos.BoxInformDto;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class BoxDAO {
     private final Connection connection = PostgreSQLConnection.getConnection();
 
-    public List<BoxInformDto> getBoxInformList(long idBox){
+    public List<BoxInformDto> getBoxInformList(long idBox) throws SQLException{
         String query = "select bp.id_product, bp.count, p.description  from box_product bp\n" +
                 "left join box b on bp.id_box = b.id\n" +
                 "left join product p on bp.id_product = p.id\n" +
@@ -37,7 +38,7 @@ public class BoxDAO {
                 resultList.add(boxInformDto);
             }
         } catch (SQLException sqlException){
-            sqlException.printStackTrace();
+            throw new SQLException();
         }
 
         return resultList;

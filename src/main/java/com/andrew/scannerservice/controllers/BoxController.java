@@ -7,12 +7,19 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/box/inform")
+@RequestMapping("/v1/box")
 public class BoxController {
     private final BoxService boxService;
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getInform(
+    @GetMapping("/inform/{id}")
+    public ResponseEntity<?> getProductOnBox(
             @PathVariable Long id){
         return boxService.getListProduct(id);
     }
+
+    /*
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getInformBox(
+            @PathVariable Long id) {
+
+    }*/
 }

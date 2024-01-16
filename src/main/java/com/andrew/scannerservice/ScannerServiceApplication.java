@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class ScannerServiceApplication {
 
     public static void main(String[] args) {
-        Connection connection = PostgreSQLConnection.getConnection();
+        /*Connection connection = PostgreSQLConnection.getConnection();
         String query = "select * from box";
         assert connection != null;
         try{
@@ -24,7 +24,7 @@ public class ScannerServiceApplication {
             }
         } catch (SQLException sqlException){
             sqlException.printStackTrace();
-        }
+        }*/
         SpringApplication.run(ScannerServiceApplication.class, args);
     }
 }

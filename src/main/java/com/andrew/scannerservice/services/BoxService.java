@@ -1,6 +1,7 @@
 package com.andrew.scannerservice.services;
 
 import com.andrew.scannerservice.dao.BoxDAO;
+import com.andrew.scannerservice.model.dtos.BoxDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,4 +23,14 @@ public class BoxService {
             return ResponseEntity.status(500).body("Ошибка при обращении!");
         }
     }
+
+    public ResponseEntity<?> getBoxData(Long idBox){
+        try {
+            BoxDto box = boxDAO.getBoxData(idBox);
+            return box == null ? ResponseEntity.ok("Ящик не найден!") : ResponseEntity.ok(box);
+        } catch (SQLException sqlException){
+            return ResponseEntity.status(500).body("Ошибка при обращении!");
+        }
+    }
+
 }

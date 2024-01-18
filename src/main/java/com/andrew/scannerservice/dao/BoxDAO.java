@@ -43,4 +43,27 @@ public class BoxDAO {
 
         return resultList;
     }
+
+    public BoxDto getBoxData(Long idBox) throws SQLException{
+        String query = "select * from box " +
+                "where id = ?";
+        BoxDto box = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, idBox);
+            ResultSet result = preparedStatement.executeQuery();
+            if(result.next()){
+                box = new BoxDto(
+                        result.getInt(1),
+                        result.getInt(2),
+                        result.getInt(3),
+                        result.getDate(4)
+                );
+            }
+        } catch (SQLException sqlException){
+            throw new SQLException();
+        }
+
+        return box;
+    }
 }

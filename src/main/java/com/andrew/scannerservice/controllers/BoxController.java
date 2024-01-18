@@ -16,10 +16,10 @@ public class BoxController {
         return boxService.getListProduct(id);
     }
 
-    /*
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getInformBox(
             @PathVariable Long id) {
-
-    }*/
+        return boxService.getBoxData(id);
+    }
 }

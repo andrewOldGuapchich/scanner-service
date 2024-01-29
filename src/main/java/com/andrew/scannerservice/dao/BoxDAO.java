@@ -57,7 +57,7 @@ public class BoxDAO {
                         result.getInt(1),
                         result.getInt(2),
                         result.getInt(3),
-                        result.getDate(4)
+                        result.getString(4)
                 );
             }
         } catch (SQLException sqlException){

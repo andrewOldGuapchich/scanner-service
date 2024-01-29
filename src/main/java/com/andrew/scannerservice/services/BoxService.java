@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +29,19 @@ public class BoxService {
     public ResponseEntity<?> getBoxData(Long idBox){
         try {
             BoxDto box = boxDAO.getBoxData(idBox);
+            if(box != null) {
+                box.setDate(getFormattedDate(box.getDate()));
+            }
             return box == null ? ResponseEntity.ok("Ящик не найден!") : ResponseEntity.ok(box);
         } catch (SQLException sqlException){
             return ResponseEntity.status(500).body("Ошибка при обращении!");
         }
     }
 
+    private String getFormattedDate(String inDate){
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date = LocalDate.parse(inDate, inputFormatter);
+        return date.format(outputFormatter);
+    }
 }

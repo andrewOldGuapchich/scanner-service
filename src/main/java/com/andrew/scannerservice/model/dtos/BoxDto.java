@@ -11,5 +11,5 @@ public class BoxDto {
     private int id;
     private int group;
     private int number;
-    private Date date;
+    private String date;
 }

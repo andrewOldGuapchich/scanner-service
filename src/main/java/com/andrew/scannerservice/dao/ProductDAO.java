@@ -1,7 +1,7 @@
 package com.andrew.scannerservice.dao;
 
 import com.andrew.scannerservice.connection.PostgreSQLConnection;
-import com.andrew.scannerservice.model.dtos.ProductInformDto;
+import com.andrew.scannerservice.model.dtos.product.ProductInformDto;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -14,6 +14,20 @@ import java.util.List;
 @Repository
 public class ProductDAO {
     private final Connection connection = PostgreSQLConnection.getConnection();
+
+    public String getNameProduct(long productId) throws SQLException {
+        String query = "select p.description from product p where id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, productId);
+            ResultSet set = statement.executeQuery();
+            set.next();
+
+            return set.getString(1);
+        } catch (SQLException sqlException){
+            throw new SQLException();
+        }
+    }
 
     public List<ProductInformDto> getProductList(long productId) throws SQLException {
         String query = "select bp.id_box, bp.count from box_product bp\n" +

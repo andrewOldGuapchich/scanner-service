@@ -1,4 +1,4 @@
-package com.andrew.scannerservice.model.dtos;
+package com.andrew.scannerservice.model.dtos.product;
 
 
 import lombok.AllArgsConstructor;

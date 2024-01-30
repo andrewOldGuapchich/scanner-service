@@ -15,8 +15,9 @@ public class ProductService {
 
     public ResponseEntity<?> getProductInform(long productId){
         try{
-            if(productDAO.getNameProduct(productId).isEmpty())
+            if(productDAO.getNameProduct(productId) == null) {
                 return ResponseEntity.status(400).body("Товар не найден!");
+            }
             else {
                 return ResponseEntity.ok(
                         new ProductDto(productDAO.getNameProduct(productId),

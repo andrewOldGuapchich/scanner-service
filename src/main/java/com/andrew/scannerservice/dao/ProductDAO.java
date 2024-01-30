@@ -21,12 +21,12 @@ public class ProductDAO {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, productId);
             ResultSet set = statement.executeQuery();
-            set.next();
-
-            return set.getString(1);
+            if(set.next())
+                return set.getString(1);
         } catch (SQLException sqlException){
             throw new SQLException();
         }
+        return null;
     }
 
     public List<ProductInformDto> getProductList(long productId) throws SQLException {

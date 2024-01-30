@@ -15,7 +15,7 @@ public class ProductService {
     public ResponseEntity<?> getProductInform(long productId){
         try{
             if(productDAO.getProductList(productId).isEmpty())
-                return ResponseEntity.status(404).body("Товар не найден!");
+                return ResponseEntity.status(400).body("Товар не найден!");
             else
                 return ResponseEntity.ok(productDAO.getProductList(productId));
         } catch (SQLException sqlException){

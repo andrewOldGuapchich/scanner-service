@@ -18,7 +18,7 @@ public class BoxService {
     public ResponseEntity<?> getListProduct(long idBox){
         try {
             if(boxDAO.getBoxInformList(idBox).isEmpty())
-                return ResponseEntity.ok("Ящик пустой!");
+                return ResponseEntity.status(400).body("Ящик не найден!");
             else
                 return ResponseEntity.ok(boxDAO.getBoxInformList(idBox));
         } catch (SQLException sqlException){
@@ -32,7 +32,7 @@ public class BoxService {
             if(box != null) {
                 box.setDate(getFormattedDate(box.getDate()));
             }
-            return box == null ? ResponseEntity.ok("Ящик не найден!") : ResponseEntity.ok(box);
+            return box == null ? ResponseEntity.status(400).body("Ящик не найден!") : ResponseEntity.ok(box);
         } catch (SQLException sqlException){
             return ResponseEntity.status(500).body("Ошибка при обращении!");
         }

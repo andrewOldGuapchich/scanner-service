@@ -1,8 +1,8 @@
 package com.andrew.scannerservice.dao;
 
 import com.andrew.scannerservice.connection.PostgreSQLConnection;
-import com.andrew.scannerservice.model.dtos.BoxDto;
-import com.andrew.scannerservice.model.dtos.BoxInformDto;
+import com.andrew.scannerservice.model.dtos.box.BoxDto;
+import com.andrew.scannerservice.model.dtos.box.BoxInformDto;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -65,5 +65,66 @@ public class BoxDAO {
         }
 
         return box;
+    }
+
+    /** если в ящике столько продуктов сколько насканировано, то перемещаем и из ящика удаляем запись
+     *
+     */
+    public void moveOnFromBox(long idBox, long idProduct, int count){
+        String query = "update box_product set count = count - ? where id_box = ? and id_product = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setInt(1, count);
+            preparedStatement.setLong(2, idBox);
+            preparedStatement.setLong(3, idProduct);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void moveOnToBox(long idBox, long idProduct, int count) {
+        String query = "update box_product set count = count + ? where id_box = ? and id_product = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, count);
+            preparedStatement.setLong(2, idBox);
+            preparedStatement.setLong(3, idProduct);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void clearBox(long idBox, long idProduct){
+        String query = "delete from box_product where id_box = ? and id_product = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, idBox);
+            preparedStatement.setLong(2, idProduct);
+            preparedStatement.executeUpdate();
+        } catch (SQLException s){
+            s.printStackTrace();
+        }
+    }
+
+
+    //количество товара в ящике
+    public int getCountProductOnBox(long idBox, long idProduct){
+        int count = 0;
+        String query = "select pb.count from box_product pb where id_box = ?" +
+                " and id_product = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, idBox);
+            preparedStatement.setLong(2, idProduct);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException s){
+            s.printStackTrace();
+        }
+
+        return count;
     }
 }

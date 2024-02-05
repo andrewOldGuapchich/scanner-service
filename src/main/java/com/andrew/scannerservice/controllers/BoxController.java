@@ -1,5 +1,6 @@
 package com.andrew.scannerservice.controllers;
 
+import com.andrew.scannerservice.model.dtos.inform.MoveRequestBody;
 import com.andrew.scannerservice.services.BoxService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +22,10 @@ public class BoxController {
     public ResponseEntity<?> getInformBox(
             @PathVariable Long id) {
         return boxService.getBoxData(id);
+    }
+
+    @PutMapping("/move")
+    public ResponseEntity<?> moveProduct(@RequestBody MoveRequestBody moveRequestBody) {
+        return boxService.moveProduct(moveRequestBody);
     }
 }
